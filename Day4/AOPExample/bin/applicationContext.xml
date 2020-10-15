@@ -9,10 +9,10 @@
                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="obj" class="com.training.org.A"></bean>
-	<bean id="ba" class="com.training.org.BeforeAdvice"></bean>
-<bean id="aa" class="com.training.org.AfterAdvice"></bean>
+	<!-- bean id="ba" class="com.training.org.BeforeAdvice"></bean-->
+<!--bean id="aa" class="com.training.org.AfterAdvice"></bean-->
 
-<!--  bean id="ba" class="com.training.org.MethodInterceptor"></bean-->
+<bean id="ba" class="com.training.org.MethodInterceptor"></bean>
 
 
 	<bean id="proxy"
@@ -21,7 +21,7 @@
 		<property name="target" ref="obj"></property>
 		<property name="InterceptorNames">
 			<list>
-			<value>aa</value>
+			
 				<value>ba</value>
 			</list>
 
