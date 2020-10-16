@@ -1,0 +1,2 @@
+2020-10-16 14:18:43.449 ERROR 18288 --- [http-nio-8080-exec-1] com.training.org.MyAppApplication        : this is error
+2020-10-16 14:31:19.222 ERROR 18288 --- [http-nio-8080-exec-1] com.training.org.MyAppApplication        : this is error
