@@ -1,0 +1,33 @@
+Spring Boot is an open sourced java based framework built on the top of the spring framework.
+It provides a easier and faster way to setup, configure and run both simple and web based applications.
+We should use it because it has many features like 
+	It has an inbuilt server
+	It simplifies integration with hibernate etc
+	It reduces work and time
+	It has powerful database management capabilities.
+Spring Framework + Embedded HTTP servers - XML configuration = Spring Boot
+
+
+2
+The @SpringBootApplication annotation is like the main starting point which adds the folowing:
+	@configuration
+	@ComponentScan
+	@EnableAutoConfiguration
+The @AutoEnableConfiguration enables Spring Boot to auto-configure the Application context.
+
+3
+Spring Intialiser is a web-based tool developed by Pivotal Web Service. 
+It can help us to easily generate a simple Spring Boot Project.
+
+4
+The Spring Boot CLI is a Command Line Interface for Spring Boot.
+It can be used for a quick start with Spring.It is the fastest way to create a spring based application.
+Benefits :-
+It provides an interface to run and test Spring Boot Application from command prompt.
+It internally use Spring Boot Starter and Spring Boot AutoConfigurate components in order to resolve all dependencies and executes the application.
+
+5
+Yes we can change the port of embedded tomcat server.
+In the application.properties file we need to mention the following statement:
+server.port=5050
+
