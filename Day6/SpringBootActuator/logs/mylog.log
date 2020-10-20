@@ -1,0 +1,38 @@
+2020-10-19 17:17:19.859  INFO 5164 --- [restartedMain] c.t.org.SpringBootActuatorApplication    : Starting SpringBootActuatorApplication on MariaDB-01 with PID 5164 (C:\Users\veena\eclipse-workspace\SpringBootActuator\target\classes started by veena in C:\Users\veena\eclipse-workspace\SpringBootActuator)
+2020-10-19 17:17:19.869  INFO 5164 --- [restartedMain] c.t.org.SpringBootActuatorApplication    : No active profile set, falling back to default profiles: default
+2020-10-19 17:17:20.026  INFO 5164 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-10-19 17:17:20.027  INFO 5164 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-10-19 17:17:23.354  INFO 5164 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-10-19 17:17:23.377  INFO 5164 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-10-19 17:17:23.378  INFO 5164 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2020-10-19 17:17:23.582  INFO 5164 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-10-19 17:17:23.583  INFO 5164 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3553 ms
+2020-10-19 17:17:24.932  INFO 5164 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-10-19 17:17:25.558  INFO 5164 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-10-19 17:17:25.576  INFO 5164 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoint(s) beneath base path '/actuator'
+2020-10-19 17:17:25.736  INFO 5164 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-10-19 17:17:25.795  INFO 5164 --- [restartedMain] c.t.org.SpringBootActuatorApplication    : Started SpringBootActuatorApplication in 6.814 seconds (JVM running for 9.14)
+2020-10-19 17:17:27.336  INFO 5164 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-10-19 17:17:27.338  INFO 5164 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-10-19 17:17:27.354  INFO 5164 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 15 ms
+2020-10-19 17:35:19.929  INFO 5164 --- [RMI TCP Connection(21)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2020-10-19 17:35:20.181  INFO 5164 --- [RMI TCP Connection(21)-127.0.0.1] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-10-19 17:35:37.141  INFO 8896 --- [restartedMain] c.t.org.SpringBootActuatorApplication    : Starting SpringBootActuatorApplication on MariaDB-01 with PID 8896 (C:\Users\veena\eclipse-workspace\SpringBootActuator\target\classes started by veena in C:\Users\veena\eclipse-workspace\SpringBootActuator)
+2020-10-19 17:35:37.148  INFO 8896 --- [restartedMain] c.t.org.SpringBootActuatorApplication    : No active profile set, falling back to default profiles: default
+2020-10-19 17:35:37.259  INFO 8896 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-10-19 17:35:37.259  INFO 8896 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-10-19 17:35:40.077  INFO 8896 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-10-19 17:35:40.108  INFO 8896 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-10-19 17:35:40.108  INFO 8896 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.38]
+2020-10-19 17:35:40.467  INFO 8896 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-10-19 17:35:40.469  INFO 8896 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3209 ms
+2020-10-19 17:35:41.829  INFO 8896 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-10-19 17:35:43.126  INFO 8896 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-10-19 17:35:43.152  INFO 8896 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 15 endpoint(s) beneath base path '/actuator'
+2020-10-19 17:35:43.386  INFO 8896 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-10-19 17:35:43.453  INFO 8896 --- [restartedMain] c.t.org.SpringBootActuatorApplication    : Started SpringBootActuatorApplication in 7.288 seconds (JVM running for 10.182)
+2020-10-19 17:35:43.656  INFO 8896 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-10-19 17:35:43.666  INFO 8896 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-10-19 17:35:43.701  INFO 8896 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 33 ms
+2020-10-19 17:39:12.042  INFO 8896 --- [RMI TCP Connection(10)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2020-10-19 17:39:12.152  INFO 8896 --- [RMI TCP Connection(10)-127.0.0.1] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
