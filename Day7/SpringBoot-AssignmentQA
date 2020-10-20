@@ -1,0 +1,103 @@
+
+1) What does Spring Boot mean?
+	Spring Boot is an open sourced java based framework built on the top of the spring framework.
+	It provides a easier and faster way to setup, configure and run both simple and web based applications.
+	Spring Framework + Embedded HTTP servers - XML configuration = Spring Boot
+
+
+2) What are the various Advantages Of Using Spring Boot?
+	Easy to understand and develop Spring applications
+	Increases productivity and reduces development time.
+	It simplifies integration with hibernate etc.
+
+3) What are the various features of Spring Boot?
+	Spring Application
+	Security
+	logging
+	JSON
+	Testing
+	Task exection and Scheduling
+	YAML support
+
+
+4) What is the reason to have a spring-boot-maven module?
+	The reason behind to have Spring-boot-maven module is it gives a couple of charges which empower you to package the code as a container or run the application
+
+5) How to make Spring Boot venture utilizing Spring Initializer?
+	The Spring Initializer is a web application that can produce a Spring Boot project structure.It doesn’t create any application code. However, it will give an essential project structure with Maven. We have to simply change the application code.
+
+6) What do Dev Tools in Spring boot mean?
+	Spring boot has Dev Tools. We need not redeploy our application each time we make changes. The developer can reload the progressions without restart of the server. It maintains a strategic distance from the agony of redeploying application each time when you roll out any improvement.
+
+7) What does Spring Boot Starter Pom mean? Why Is It Useful?
+	The starters contain a considerable amount of the dependencies that you have to get a task up and running rapidly and with a steady, supported a set of managed transitive conditions.The starter POMs are helpful reliance descriptors that can be added to your application’s Maven.This decreases the burden of looking at and designing all of the conditions required for a structure.
+
+8) What does Actuator in Spring Boot mean?
+	Spring Boot Actuator is a sub-task of Spring Boot.They also have numerous features added to your application.They’re basically used to uncover diverse kinds of data about the running application – health, measurements, information, dump, env and so on.
+
+9) What Is the Configuration File Name Used By Spring Boot?
+	The configuration file name used by SpringBoot is application.properties file.
+
+10) Why in spring boot “Opinionated ” is used?
+	It takes after "Opinionated Defaults Configuration" Approach to lessen Developer exertion. Because of the Opinionated perspective of spring boot, what is required to begin yet additionally we can get out if not appropriate for the application. Spring Boot utilizes sensible defaults, “opinions,” for the most part in light of the classpath substance.
+
+11) What are esteem properties of Spring Boot?
+	Spring Boot gives different properties, which can be indicated in our project’s application.Properties record. These properties have default values, and you can set that inside the properties record. Properties are utilized to set qualities like a server-port number, database association configuration and much more.
+
+12) What Is the Configuration File Name, which is used By Spring Boot?
+	The configuration file name used by SpringBoot is application.properties file.
+
+13) Would we be able to Use Spring Boot with Applications Which Are Not Using Spring?
+	No, Spring Boot is restricted to Spring applications only.
+
+14) What Is Name Of The Configuration File, Which You Use In Spring Boot?
+	The configuration file name used by SpringBoot is application.properties file.
+
+15) How Might You Implement Spring Security In Spring Boot Application?
+	You have to include spring-boot-starter-security starter in pom.xml. 
+	You need to make spring config class, which will expand WebSecurity Configure Adapter and override expected strategy to accomplish security in Spring boot application.
+
+16) Would you be able to Control Logging with Spring Boot? How?
+	Yes we can control Logging with SpringBoot.
+
+17) Differentiate Between An Embedded Container And A War?
+	The embedded container is only one component of Spring Boot
+	Traditional WAR additionally benefits a considerable measure from Spring Boot
+	Automatic Spring MVC setup, including Dispatcher Servlet.
+	The embedded container can be utilized during improvement.
+
+18) What does Spring Security mean?
+	Spring security is a framework that enables a programmer to impose security restrictions to spring framewrok based web applications.
+	Spring Security is a groundbreaking and very adjustable authentication and access-control structure. Like all spring ventures, the genuine power of Spring Security is found in how effectively it can be reached out to meet custom prerequisites.
+
+19) What does Aspect-Oriented Programming (AOP) mean?
+	Aspect Oriented Programming (AOP) supplements Object-Oriented Programming (OOP) by giving another mindset about program structure. The key unit of measured quality in OOP is the class, while in AOP the unit of particularity is the viewpoint.
+	AOP provides the way to dynamically add cross-cutting concern before, after , or around the actual logic using simple configurations.
+
+20) Describe some of the spring sub-projects briefly?
+	Various spring sub-projects are:
+	JDBC, Core, Web, ORM, AOP module, MVC system
+	
+21) Explain the difference between JPA and Hibernate?
+	JPA is a specification/Interface.
+	Hibernate is one of the JPA implementations.
+
+22) How to connect to an external database like MYSQL or oracle with Spring boot?
+	1. Adding the dependency for your database connector to pom.xml.
+	2. Create database and a table.
+	3. Configure application.properties file to connect to your databse.
+	4. Now connected to the database, Write your queries.
+
+23) How to add custom JS code in Spring Boot?
+	/src/main/resources/static is the suggested folder for static content in Spring boot.
+	You can create a JS file by creating a custom file named custom.js in /src/main/resources/static/js/ directory with code
+
+24) List minimum requirements for Spring boot System?
+	Java 8+
+	Maven 3.2+
+	Tomcat 7+
+
+25) What is Auto Configuration in Spring boot?
+	Auto-Configuration is used to arrange spring application mechnically based on dependencies of classpath.It makes work easier and faster.
+
+
