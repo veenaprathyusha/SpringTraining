@@ -1,0 +1,1527 @@
+package com.training.org;
+
+public class Customer {
+	private Long id;
+	private String first_name;
+	private String last_name;
+	
+	
+	
+	public Customer(Long id, String first_name, String last_name) {
+		super();
+		this.id = id;
+		this.first_name = first_name;
+		this.last_name = last_name;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getFirst_name() {
+		return first_name;
+	}
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
+	}
+	public String getLast_name() {
+		return last_name;
+	}
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+
+}
+
+
+
+
+
+
+package com.training.org;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+
+@SpringBootApplication
+public class SpringBootJdbcWithMySqlApplication implements CommandLineRunner {
+
+	private static final Logger log = LoggerFactory.getLogger(SpringBootJdbcWithMySqlApplication.class);
+
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+
+	public static void main(String args[]) {
+		SpringApplication.run(SpringBootJdbcWithMySqlApplication.class, args);
+	}
+
+
+	@Override
+	public void run(String... strings) throws Exception {
+
+		log.info("Creating tables");
+
+	//	jdbcTemplate.execute("DROP TABLE customers IF EXISTS");
+		jdbcTemplate.execute("CREATE TABLE customers(" +
+				"id SERIAL, first_name VARCHAR(255), last_name VARCHAR(255))");
+
+		// Split up the array of whole names into an array of first/last names
+		List<Object[]> splitUpNames = Arrays.asList("John Woo", "Jeff Dean", "Josh Bloch", "Josh Long").stream()
+				.map(name -> name.split(" "))
+				.collect(Collectors.toList());
+
+		// Use a Java 8 stream to print out each tuple of the list
+		splitUpNames.forEach(name -> log.info(String.format("Inserting customer record for %s %s", name[0], name[1])));
+
+		// Uses JdbcTemplate's batchUpdate operation to bulk load data
+		jdbcTemplate.batchUpdate("INSERT INTO customers(first_name, last_name) VALUES (?,?)", splitUpNames);
+
+		log.info("Querying for customer records where first_name = 'Josh':");
+		jdbcTemplate.query("SELECT id, first_name, last_name FROM customers WHERE first_name = ?", new Object[] { "Josh" },(rs, rowNum) -> new Customer(rs.getLong("id"), rs.getString("first_name"), rs.getString("last_name"))).forEach(customer -> log.info(customer.toString()));	  
+	}
+}
+
+
+
+
+
+
+
+package com.training.org;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class SpringBootJDBCController {
+	private JdbcTemplate jdbc;
+	
+	@RequestMapping("/insert")
+	public String index() {
+		jdbc.execute("insert into user(name,email) values('EShan','eshan@gmail.com')");
+		return "Data inserted";
+	}
+
+}
+
+
+
+
+
+
+spring.datasource.url=jdbc:mysql://localhost:3306/springbootdb
+spring.datasource.username=root  
+spring.datasource.password=  
+spring.jpa.hibernate.ddl-auto=create-drop  
+
+
+
+
+----------------------------------------------
+
+
+#spring.main.banner-mode=off
+#logging.level.root=INFO
+#logging.pattern.console=%d{dd-MM-yyyy HH:mm:ss} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n
+
+myrest.url=http://localhost:4000/users
+        
+        
+        
+        
+        
+        
+        
+
+
+package com.training.org;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class User {
+
+    private int id;	
+    private String firstName;
+    private String lastName;
+    private String email;
+
+    public int getId() {
+
+        return id;
+    }
+
+    public void setId(int id) {
+
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    @JsonProperty("first_name")
+    public void setFirstName(String firstName) {
+
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    @JsonProperty("last_name")
+    public void setLastName(String lastName) {
+
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+
+        final var sb = new StringBuilder("User{");
+        sb.append("id=").append(id);
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append('}');
+        
+        return sb.toString();
+    }
+}        
+
+
+package com.training.org;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringBootRestTemplateApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootRestTemplateApplication.class, args);
+	}
+
+}
+
+
+
+
+package com.training.org;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+
+@Component
+public class MyRunner implements CommandLineRunner {
+
+    private static final Logger logger = LoggerFactory.getLogger(MyRunner.class);
+
+    @Autowired
+    private MyRestService myRestService;
+
+    @Override
+    public void run(String... args) throws Exception {
+
+        var users = myRestService.getUsers();
+
+        Arrays.stream(users).limit(10).forEach(todo -> logger.info("{}", todo));
+    }
+}
+
+
+
+
+
+package com.training.org;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class MyRestService {
+
+	@Autowired
+	private RestTemplate myRestTemplate;
+
+	@Value("${myrest.url}")
+	private String restUrl;
+
+	public User[] getUsers() {
+
+		var users = myRestTemplate.getForObject(restUrl, User[].class);
+		return users;
+	}
+}
+
+
+
+
+package com.training.org;
+
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public RestTemplate restTemplate() {
+
+        var factory = new SimpleClientHttpRequestFactory();
+
+        factory.setConnectTimeout(3000);
+        factory.setReadTimeout(3000);
+
+        return new RestTemplate(factory);
+    }
+}
+
+
+
+
+-----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.training.org;
+	
+	import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+	@RestController
+	public class ProductServiceController {
+		private static Map<String,Product> productRepo=new HashMap<>();
+		@Autowired
+		
+		private MyRestService myRestService;
+		static {
+			Product honey=new Product();
+			honey.setId("H101");
+			honey.setName("Honey 1");
+			productRepo.put(honey.getId(), honey);
+			
+			Product almond=new Product();
+			almond.setId("A201");
+			almond.setName("Almond 1");
+			productRepo.put(almond.getId(), almond);
+		}
+	
+		
+		@RequestMapping(value = "/products")
+		public ResponseEntity<Object> getProducts(){
+			System.out.println("Values :- "+myRestService.getUsers());
+			return new ResponseEntity<> (productRepo.values(),HttpStatus.OK); 
+		}
+		
+	}
+
+
+
+
+
+
+
+package com.training.org;
+
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+public class User {
+	
+	private int id;
+	private String firstName;
+	private String lastName;
+	private String email;
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	@JsonProperty("first_name")
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	@JsonProperty("last_name")
+	public void setLastName(String lastName) {
+
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+
+		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+
+		final var sb = new StringBuilder("User{");
+		sb.append("id=").append(id);
+		sb.append(", firstName='").append(firstName).append('\'');
+		sb.append(", lastName='").append(lastName).append('\'');
+		sb.append(", email='").append(email).append('\'');
+		sb.append('}');
+
+		return sb.toString();
+	}
+} 
+
+
+
+
+
+
+
+package com.training.org;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class MyRestService {
+	@Autowired
+	private RestTemplate myRestTemplate;
+	
+	@Value("${myrest.url}")
+	private String restUrl;
+	
+	
+	@RequestMapping(value="/users")
+	public User[] getUsers() {
+		var users=myRestTemplate.getForObject(restUrl, User[].class);
+		System.out.println(users);
+		return users;
+	}
+	
+	@Bean
+	public RestTemplate restTemplate() {
+	    return new RestTemplate();
+	}
+	
+}
+
+
+
+
+
+
+
+	package com.training.org;
+	
+	import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+	@RestController
+	public class ProductServiceController {
+		private static Map<String,Product> productRepo=new HashMap<>();
+		@Autowired
+		
+		private MyRestService myRestService;
+		static {
+			Product honey=new Product();
+			honey.setId("H101");
+			honey.setName("Honey 1");
+			productRepo.put(honey.getId(), honey);
+			
+			Product almond=new Product();
+			almond.setId("A201");
+			almond.setName("Almond 1");
+			productRepo.put(almond.getId(), almond);
+		}
+	
+		
+		@RequestMapping(value = "/products")
+		public ResponseEntity<Object> getProducts(){
+			System.out.println("Values :- "+myRestService.getUsers());
+			return new ResponseEntity<> (productRepo.values(),HttpStatus.OK); 
+		}
+		
+	}
+
+
+
+
+
+
+package com.training.org;
+
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+public class User {
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+ public String getFirstName() {
+        return firstName;
+    }
+    @JsonProperty("first_name")
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    @JsonProperty("last_name")
+    public void setLastName(String lastName) {
+
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+
+        final var sb = new StringBuilder("User{");
+        sb.append("id=").append(id);
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append('}');
+        
+        return sb.toString();
+    }
+} 
+
+
+
+
+
+
+
+spring.main.banner-mode=off
+logging.level.root=INFO
+logging.pattern.console=%d{dd-MM-yyyy HH:mm:ss} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n
+
+myrest.url=http://localhost:4000/users
+
+
+        
+        
+        
+
+
+
+With faker we generate one hundred users with id, first name, last name, and email attributes. The data is written to data.json file. The file is used by json-server.
+
+$ node generate_fake_users.js
+We generate one hundred fake users.
+
+$ json-server --watch data.json
+
+\{^_^}/ hi!
+
+Loading data.json
+Done
+
+Resources
+http://localhost:3000/users
+
+Home
+http://localhost:3000
+We start the json-server. Now we can create a request to the http://localhost:3000/users resource to get one hundred users in JSON.
+
+        
+        
+        
+        
+        
+
+
+const faker = require('faker')
+const fs = require('fs')
+function generateUsers() {
+    let users = []
+    for (let id=1; id <= 100; id++) {
+        let firstName = faker.name.firstName()
+        let lastName = faker.name.lastName()
+        let email = faker.internet.email()
+        users.push({
+            "id": id,
+            "first_name": firstName,
+            "last_name": lastName,
+            "email": email
+        })
+    }
+    return { "users": users }
+}
+let dataObj = generateUsers();
+fs.writeFileSync('data.json', JSON.stringify(dataObj, null, '\t'));
+
+
+
+
+
+
+
+In the following application we create a custom test server that produces JSON data and use RestTemplate to generate a HTTP request and consume the returned JSON data.
+
+Creating JSON server
+We use Node to create a JSON test server for our purposes.
+
+$ node --version
+v11.2.0
+We show the version of Node.
+
+$ npm init    
+$ npm i -g json-server
+$ npm i faker fs
+
+
+
+
+
+Spring Boot RestTemplate tutorial shows how to use RestTemplate to create synchronous HTTP requests in a Spring application.
+RestTemplate is a synchronous client to perform HTTP requests. It uses a simple, template method API over underlying HTTP client libraries such as the JDK HttpURLConnection, Apache HttpComponents, and others.
+
+Since Spring 1.5.0, a new client WebClient is available that can be use do create both synchronous and asynchronous requests. In the future releases, RestTemplate will be deprecated in favour of WebClient.
+Rest Template is used to create applications that consume RESTful Web Services. You can use the exchange() method to consume the web services for all HTTP methods. The code given below shows how to create Bean for Rest Template to auto wiring the Rest Template object.
+
+
+    
+    
+    
+
+
+REST stands for REpresentational State Transfer. REST specifies a set of architectural constraints. Any service which satisfies these constraints is called RESTful Service.
+The five important constraints for RESTful Web Service are
+Client - Server : There should be a service producer and a service consumer.
+The interface (URL) is uniform and exposing resources.
+The service is stateless.
+The service results should be Cacheable. HTTP cache, for example.
+Service should assume a Layered architecture. Client should not assume direct connection to server - it might be getting info from a middle layer - cache.
+
+
+
+
+
+
+
+
+
+1) What does Spring Boot mean?
+2) What are the various Advantages Of Using Spring Boot?
+3) What are the various features of Spring Boot?
+4) What is the reason to have a spring-boot-maven module?
+5) How to make Spring Boot venture utilizing Spring Initializer?
+6) What do Dev Tools in Spring boot mean?
+7) What does Spring Boot Starter Pom mean? Why Is It Useful?
+8) What does Actuator in Spring Boot mean?
+9) What Is the Configuration File Name Used By Spring Boot?
+10) Why in spring boot “Opinionated ” is used?
+11) What are esteem properties of Spring Boot?
+12) What Is the Configuration File Name, which is used By Spring Boot?
+13) Would we be able to Use Spring Boot with Applications Which Are Not Using Spring?
+14) What Is Name Of The Configuration File, Which You Use In Spring Boot?
+15) How Might You Implement Spring Security In Spring Boot Application?
+16) Would you be able to Control Logging with Spring Boot? How?
+17) Differentiate Between An Embedded Container And A War?
+18) What does Spring Security mean?
+19) What does Aspect-Oriented Programming (AOP) mean?
+20) Describe some of the spring sub-projects briefly?
+21) Explain the difference between JPA and Hibernate?
+22) How to connect to an external database like MSSQL or oracle with Spring boot?
+23) How to add custom JS code in Spring Boot?
+24) List minimum requirements for Spring boot System?
+25) What is Auto Configuration in Spring boot?
+
+
+
+
+
+
+
+package com.training.org;
+
+public class Product {
+	
+	private String id;
+	private String name;
+	
+	public Product() {
+		super();
+		
+	}
+	
+	public Product(String id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
+	
+
+}
+
+
+
+
+package com.training.org;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+@RestController
+public class ProductServiceController {
+	private static Map<String,Product> productRepo=new HashMap<>();
+	static {
+		Product honey=new Product();
+		honey.setId("H101");
+		honey.setName("Honey 1");
+		productRepo.put(honey.getId(), honey);
+		
+		Product almond=new Product();
+		almond.setId("A201");
+		almond.setName("Almond 1");
+		productRepo.put(almond.getId(), almond);
+	}
+
+	
+	@RequestMapping(value = "/products")
+	public ResponseEntity<Object> getProducts(){
+		return new ResponseEntity<> (productRepo.values(),HttpStatus.OK); 
+	}
+	
+}
+
+
+
+
+
+
+
+It works on both web and non-web environments.
+Java template engine for HTML5/ XML/ XHTML.
+Its high-performance parsed template cache reduces I/O to the minimum.
+It can be used as a template engine framework if required.
+It supports several template modes: XML, XHTML, and HTML5.
+It allows developers to extend and create custom dialect.
+It is based on modular features sets called dialects.
+It supports internationalization.
+
+
+
+
+
+
+
+Thymeleaf can process six types of templates (also known as Template Mode) are as follows:
+XML
+Valid XML
+XHTML
+Valid XHTML
+HTML5
+Legacy HTML5
+
+
+
+
+
+
+
+
+The Thymeleaf is an open-source Java library that is licensed under the Apache License 2.0. It is a HTML5/XHTML/XML template engine. It is a server-side Java template engine for both web (servlet-based) and non-web (offline) environments. It is perfect for modern-day HTML5 JVM web development. It provides full integration with Spring Framework.
+It applies a set of transformations to template files in order to display data or text produced by the application. It is appropriate for serving XHTML/HTML5 in web applications.
+The goal of Thymeleaf is to provide a stylish and well-formed way of creating templates. It is based on XML tags and attributes. These XML tags define the execution of predefined logic on the DOM (Document Object Model) instead of explicitly writing that logic as code inside the template. It is a substitute for JSP.
+The architecture of Thymeleaf allows the fast proce
+
+
+
+ssing of templates that depends on the caching of parsed files. It uses the least possible amount of I/O operations during execution
+
+
+
+
+
+
+
+
+name=EShan
+
+
+
+
+
+
+
+package com.training.org;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+@Service
+public class HelloMessageService {
+	@Value("${name:unkown}")
+	private String name;
+	
+	
+	public String getMessage() {
+		return getMessage(name);
+		
+	}
+	
+	public String getMessage(String name) {
+		return "Hello"+name;
+	}
+
+}
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.4.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.training</groupId>
+	<artifactId>CommandLineRunnerExample</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>CommandLineRunnerExample</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+
+
+
+
+package com.training.org;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.CommandLineRunner;
+
+public class ApplicationStartupRunner implements CommandLineRunner {
+    protected final Log logger = LogFactory.getLog(getClass());
+    @Override
+    public void run(String... args) throws Exception {
+    	System.out.println("Applicationrunner with Run method");
+        logger.info("Application Started !!");
+    }
+}
+
+
+
+
+
+
+package com.training.org;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+@SpringBootApplication
+
+public class CommandLineRunnerExampleApplication extends SpringBootServletInitializer{
+	//    protected final Log logger = LogFactory.getLog(getClass());
+	//
+	//    @Override
+	//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+	//    	System.out.println("SpringBootApplicationBuilder is called");
+	//        return application.sources(CommandLineRunnerExampleApplication.class);
+	//    }
+	//
+	//    public static void main(String[] args) {
+	//		
+	//		SpringApplication.run(CommandLineRunnerExampleApplication.class, args);
+	//		System.out.println("Main Part of application");
+	//	}
+	//
+	//	@Override
+	//	public void run(String... args) throws Exception {
+	//		System.out.println("run method ");
+	//		logger.info("ApplicationStartupRunner run method Started !!");
+	//		
+	//	}
+
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		System.out.println("SpringApplicationBuilder is called");
+		return application.sources(CommandLineRunnerExampleApplication.class);
+	}
+	public static void main(String[] args) throws Exception {
+		System.out.println("Main is called");
+		SpringApplication.run(CommandLineRunnerExampleApplication.class, args);
+	}
+	@Bean
+	public ApplicationStartupRunner schedulerRunner() {
+		System.out.println("schedulerRunner is called");
+		return new ApplicationStartupRunner();
+	}
+
+
+}	
+
+
+@Order(value=3)
+@Component
+class ApplicationStartupRunnerOne implements CommandLineRunner {
+	protected final Log logger = LogFactory.getLog(getClass());
+	@Autowired
+	private HelloMessageService helloMessageService;
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println(helloMessageService.getMessage());
+		System.out.println("ApplicationStartupRunnerOne is called");
+		logger.info("ApplicationStartupRunnerOne run method Started !!");
+	}
+}
+
+
+
+
+
+@Order(value=2)
+@Component
+class ApplicationStartupRunnerTwo implements CommandLineRunner {
+	protected final Log logger = LogFactory.getLog(getClass());
+	@Override
+	public void run(String... args) throws Exception {
+		
+		
+		System.out.println("ApplicationStartupRunnerTwo is called");
+		logger.info("ApplicationStartupRunnerTwo run method Started !!");
+	}
+}
+
+
+
+
+
+
+
+
+
+package com.training.org;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+@SpringBootApplication
+
+public class CommandLineRunnerExampleApplication extends SpringBootServletInitializer{
+	//    protected final Log logger = LogFactory.getLog(getClass());
+	//
+	//    @Override
+	//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+	//    	System.out.println("SpringBootApplicationBuilder is called");
+	//        return application.sources(CommandLineRunnerExampleApplication.class);
+	//    }
+	//
+	//    public static void main(String[] args) {
+	//		
+	//		SpringApplication.run(CommandLineRunnerExampleApplication.class, args);
+	//		System.out.println("Main Part of application");
+	//	}
+	//
+	//	@Override
+	//	public void run(String... args) throws Exception {
+	//		System.out.println("run method ");
+	//		logger.info("ApplicationStartupRunner run method Started !!");
+	//		
+	//	}
+
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		System.out.println("SpringApplicationBuilder is called");
+		return application.sources(CommandLineRunnerExampleApplication.class);
+	}
+	public static void main(String[] args) throws Exception {
+		System.out.println("Main is called");
+		SpringApplication.run(CommandLineRunnerExampleApplication.class, args);
+	}
+	@Bean
+	public ApplicationStartupRunner schedulerRunner() {
+		System.out.println("schedulerRunner is called");
+		return new ApplicationStartupRunner();
+	}
+
+
+}	
+
+
+@Order(value=3)
+@Component
+class ApplicationStartupRunnerOne implements CommandLineRunner {
+	protected final Log logger = LogFactory.getLog(getClass());
+	@Autowired
+	private HelloMessageService helloMessageService;
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println(helloMessageService.getMessage());
+		System.out.println("ApplicationStartupRunnerOne is called");
+		logger.info("ApplicationStartupRunnerOne run method Started !!");
+	}
+}
+
+
+
+
+
+@Order(value=2)
+@Component
+class ApplicationStartupRunnerTwo implements CommandLineRunner {
+	protected final Log logger = LogFactory.getLog(getClass());
+	@Override
+	public void run(String... args) throws Exception {
+		
+		
+		System.out.println("ApplicationStartupRunnerTwo is called");
+		logger.info("ApplicationStartupRunnerTwo run method Started !!");
+	}
+}
+
+
+
+
+
+
+
+
+package com.training.org;
+
+import org.springframework.beans.factory.annotation.Value;
+
+public class HelloMessageService {
+	@Value("${name:unkown}")
+	private String name;
+	
+	
+	public String getMessage() {
+		return getMessage(name);
+		
+	}
+	
+	public String getMessage(String name) {
+		return "Hello"+name;
+	}
+
+}
+
+
+
+
+
+
+<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+<dependency>
+    <groupId>javax.persistence</groupId>
+    <artifactId>javax.persistence-api</artifactId>
+    <version>2.2</version>
+</dependency>
+
+
+
+
+
+
+package com.training.org;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+@SpringBootApplication
+
+public class CommandLineRunnerExampleApplication extends SpringBootServletInitializer{
+	//    protected final Log logger = LogFactory.getLog(getClass());
+	//
+	//    @Override
+	//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+	//    	System.out.println("SpringBootApplicationBuilder is called");
+	//        return application.sources(CommandLineRunnerExampleApplication.class);
+	//    }
+	//
+	//    public static void main(String[] args) {
+	//		
+	//		SpringApplication.run(CommandLineRunnerExampleApplication.class, args);
+	//		System.out.println("Main Part of application");
+	//	}
+	//
+	//	@Override
+	//	public void run(String... args) throws Exception {
+	//		System.out.println("run method ");
+	//		logger.info("ApplicationStartupRunner run method Started !!");
+	//		
+	//	}
+
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		System.out.println("SpringApplicationBuilder is called");
+		return application.sources(CommandLineRunnerExampleApplication.class);
+	}
+	public static void main(String[] args) throws Exception {
+		System.out.println("Main is called");
+		SpringApplication.run(CommandLineRunnerExampleApplication.class, args);
+	}
+	@Bean
+	public ApplicationStartupRunner schedulerRunner() {
+		System.out.println("schedulerRunner is called");
+		return new ApplicationStartupRunner();
+	}
+
+
+}	
+
+
+@Order(value=3)
+@Component
+class ApplicationStartupRunnerOne implements CommandLineRunner {
+	protected final Log logger = LogFactory.getLog(getClass());
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println("ApplicationStartupRunnerOne is called");
+		logger.info("ApplicationStartupRunnerOne run method Started !!");
+	}
+}
+@Order(value=2)
+@Component
+class ApplicationStartupRunnerTwo implements CommandLineRunner {
+	protected final Log logger = LogFactory.getLog(getClass());
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println("ApplicationStartupRunnerTwo is called");
+		logger.info("ApplicationStartupRunnerTwo run method Started !!");
+	}
+}
+
+
+
+
+
+
+
+
+@Order(value=3)
+@Component
+class ApplicationStartupRunnerOne implements CommandLineRunner {
+    protected final Log logger = LogFactory.getLog(getClass());
+    @Override
+    public void run(String... args) throws Exception {
+        logger.info("ApplicationStartupRunnerOne run method Started !!");
+    }
+}
+@Order(value=2)
+@Component
+class ApplicationStartupRunnerTwo implements CommandLineRunner {
+    protected final Log logger = LogFactory.getLog(getClass());
+    @Override
+    public void run(String... args) throws Exception {
+        logger.info("ApplicationStartupRunnerTwo run method Started !!");
+    }
+}
+
+
+
+
+
+
+Using @Order if multiple CommandLineRunner interface implementations
+
+You may have multiple implementations of CommandLineRunner interface. By default, spring boot to scan all its run() methods and execute it. But if you want to force some ordering in them, use @Order annotation.
+
+
+
+
+
+
+
+
+
+
+Register ApplicationStartupRunner bean
+    
+    
+@SpringBootApplication
+public class SpringBootWebApplication extends SpringBootServletInitializer {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(SpringBootWebApplication.class);
+    }
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(SpringBootWebApplication.class, args);
+    }
+    @Bean
+    public ApplicationStartupRunner schedulerRunner() {
+        return new ApplicationStartupRunner();
+    }
+}
+
+
+
+
+
+
+3) Using CommandLineRunner as Bean
+You can define a bean in SpringBootApplication which return the class that implements CommandLineRunner interface.
+ApplicationStartupRunner.java
+
+public class ApplicationStartupRunner implements CommandLineRunner {
+    protected final Log logger = LogFactory.getLog(getClass());
+    @Override
+    public void run(String... args) throws Exception {
+        logger.info("Application Started !!");
+    }
+}
+
+
+package com.training.org;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.stereotype.Component;
+
+@SpringBootApplication
+
+public class CommandLineRunnerExampleApplication extends SpringBootServletInitializer implements CommandLineRunner{
+    protected final Log logger = LogFactory.getLog(getClass());
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    	System.out.println("SpringBootApplicationBuilder is called");
+        return application.sources(CommandLineRunnerExampleApplication.class);
+    }
+
+    public static void main(String[] args) {
+		
+		SpringApplication.run(CommandLineRunnerExampleApplication.class, args);
+		System.out.println("Main Part of application");
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println("run method ");
+		logger.info("ApplicationStartupRunner run method Started !!");
+		
+	}
+
+}	
+
+
+
+
+
+
+
+
+2) Implement CommandLineRunner in @SpringBootApplication
+
+@SpringBootApplication
+public class SpringBootWebApplication extends SpringBootServletInitializer implements CommandLineRunner {
+ 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(SpringBootWebApplication.class);
+    }
+     public static void main(String[] args) throws Exception {
+        SpringApplication.run(SpringBootWebApplication.class, args);
+    }
+     @Override
+    public void run(String... args) throws Exception {
+        logger.info("Application Started !!");
+    }
+}
+
+
+
+
+1] Using CommandLineRunner as @Component
+
+@Component
+public class ApplicationStartupRunner implements CommandLineRunner {
+    protected final Log logger = LogFactory.getLog(getClass());
+ 
+    @Override
+    public void run(String... args) throws Exception {
+        logger.info("ApplicationStartupRunner run method Started !!");
+    }
+}
+
+
+
+
+
+
+package com.training.org;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
+
+@SpringBootApplication
+@Component
+public class CommandLineRunnerExampleApplication implements CommandLineRunner{
+    protected final Log logger = LogFactory.getLog(getClass());
+
+	public static void main(String[] args) {
+		
+		SpringApplication.run(CommandLineRunnerExampleApplication.class, args);
+		System.out.println("Main Part of application");
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println("run method ");
+		logger.info("ApplicationStartupRunner run method Started !!");
+		
+	}
+
+}
+
+
+
+
+
+
+How to use CommandLineRunner
+
+You can use CommandLineRunner interface in three ways:
+
+1) Using CommandLineRunner as @Component
+2) Implement CommandLineRunner in @SpringBootApplication
+3) Using CommandLineRunner as Bean
+
+
+
+
+
+
+
+Command line runners are a useful functionality to execute the various types of code that only have to be run once, right after application startup.
+FYI, Spring Batch relies on these runners in order to trigger the execution of the jobs.
+We can use the dependency injection to our advantage in order to wire in whatever dependencies that we need and in whatever way we want – in run() method implementation.
+
+
+
+
+
+
+
+
+
+Now we have validator classes, view classes, and utility classes.
+
+Spring Boot uses all the modules of Spring-like Spring MVC, Spring Data, etc. The architecture of Spring Boot is the same as the architecture of Spring MVC, except one thing: there is no need for DAO and DAOImpl classes in Spring boot.
+
+Creates a data access layer and performs CRUD operation.
+
+The client makes the HTTP requests (PUT or GET).
+
+The request goes to the controller, and the controller maps that request and handles it. After that, it calls the service logic if required.
+
+In the service layer, all the business logic performs. It performs the logic on the data that is mapped to JPA with model classes.
+
+A JSP page is returned to the user if no error occurred.
+
+
+
+
+
+
+
+Presentation Layer: The presentation layer handles the HTTP requests, translates the JSON parameter to object, and authenticates the request and transfer it to the business layer. In short, it consists of views i.e., frontend part.
+
+Business Layer: The business layer handles all the business logic. It consists of service classes and uses services provided by data access layers. It also performs Authorization and validation.
+
+Persistence Layer: The persistence layer contains all the storage logic and translates business objects from and to database rows.
+
+
+Database Layer: In the database layer, CRUD (create, retrieve, update, delete) operations are performed
