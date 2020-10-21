@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p id="demo"></p>
+<script>
+class Person {
+	  constructor(name,address,dob) {
+    this.name = name;
+    this.address=address;
+    this.dob=dob;
+  }
+  			getName(){
+				return this.name;
+			}
+			getAddress(){
+				return this.address;
+			}
+			getDob(){
+				return this.dob;
+			}
+			
+		}
+		
+		
+  
+  		var arr=new Array();
+		function save(){	
+			var name=document.getElementById('txt1').value;
+			var address=document.getElementById('txt2').value;
+			var dob=document.getElementById('txt3').value;
+			var obj=new Person(name,address,dob)
+			arr.push(obj)
+		}
+        
+        function display(){
+			str="<table border='2px'>"
+			for(i=0;i<arr.length;i++){
+				str+="<tr> <td>"+arr[i].getName()+"</td> <td>"+arr[i].getAddress()+"</td> <td>"+arr[i].getDob()+"</td></tr>"
+			}
+			str+='</table>'
+			document.getElementById('d1').innerHTML=str;
+		}
+		function age(){
+			var date1 = document.getElementById('txt3').value;
+			var daten1 = new Date(date1);
+			var date2= new Date();
+			var n1  = date2.getFullYear();
+			var n2  = daten1.getFullYear();
+			document.getElementById('d1').innerHTML="your age is"+(n1-n2)+"years";
+
+		}
+
+
+</script>
+	Enter your name <input type="text" name="" id="txt1"> <br>
+	Enter your address <input type="text" name="" id="txt2"> <br>
+	Enter your dob <input type="date" name="" id="txt3"> <br>
+	<input type="button" name="" onclick="save()" value="Accept details"> <br>
+	<input type="button" name="" onclick="display()" value="Display details"> <br>
+	<input type="button" name="" onclick="age()" value="cal age"><br>
+	<div id="d1"></div>
+
+</body>
+</html>
+

@@ -1,0 +1,33 @@
+
+
+
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<script>
+function difference(){
+const date1 = document.getElementById("date1").value;
+const date2 = document.getElementById("date2").value;
+ 
+const dates1 = new Date(date1);
+const dates2 = new Date(date2);
+const diff =(dates2.getTime()-dates1.getTime());
+//const diffTime = Math.abs(dates2 - dates1);
+//const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+//document.write(diffTime + " milliseconds");
+if( diff < 0){
+document.write("date1 should be less than date2");
+}else{
+document.write(diff/(1000*3600*24) + " days");
+}
+}
+</script>
+
+enter a date <input type="date" id="date1" name="date1"><br>
+enter a date <input type="date" id="date2" name="date2"><br>
+<button type="button" name="button" onclick="difference()">submit</button>
+
+</body>
+</html>

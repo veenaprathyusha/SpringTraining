@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>video</title>
+</head>
+<body>
+	<center>
+		<div>
+			<img style="display:inline;" src="https://d585tldpucybw.cloudfront.net/sfimages/default-source/blogs/templates/social/reactt-dark_1200x628.png?sfvrsn=19de8226_2" alt="React" width="50" height="50"/>
+			<h1 style="display:inline;">Awesome Online Videos</h1>
+		</div>
+		<video id="video" width="200" height="200">
+  <source src="video.mp4" type="video/mp4">
+  </video>
+
+		<button onclick="play()" type="button">play video</button>
+		<button onclick="pause()" type="button">pause video</button>
+	</center>
+</body>
+</html>
+
+<script>
+	var v1=document.getElementById("video");
+	function play(){
+		v1.play();
+	}
+	function pause(){
+		v1.pause();
+	}
+</script>

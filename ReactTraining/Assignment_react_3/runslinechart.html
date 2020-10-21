@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h3>T20 Cricket Match Statistics</h3>
+<canvas id="myCanvas" width="500" height="400">
+</canvas>
+<script>
+var c = document.getElementById("myCanvas");
+var graph = c.getContext("2d");
+graph.lineWidth = 1.5;
+graph.strokeText("Runs",32,20);
+graph.strokeText("240-",0,20);
+graph.strokeText("210-",0,70);
+graph.strokeText("180-",0,120);
+graph.strokeText("150-",0,170);
+graph.strokeText("120-",0,220);
+graph.strokeText("60  -",0,270);
+graph.strokeText("30  -",0,320);
+graph.strokeText("0    -",0,370);
+graph.moveTo(30,400);
+graph.lineTo(30,0);
+graph.moveTo(0,370);
+graph.lineTo(500,370);
+graph.stroke();
+graph.strokeText("|",130,380);
+graph.strokeText("5",130,395);
+graph.strokeText("|",230,380);
+graph.strokeText("10",230,395);
+graph.strokeText("|",330,380);
+graph.strokeText("15",330,395);
+graph.strokeText("|",430,380);
+graph.strokeText("20",430,395);
+graph.strokeText("Overs",435,370);
+graph.moveTo(130, 303); 
+graph.lineTo(230, 245); 
+graph.moveTo(230, 245);
+graph.lineTo(330, 187); 
+graph.moveTo(330, 187);
+graph.lineTo(430, 70);
+graph.stroke();
+</script>
+</body>
+</html>
