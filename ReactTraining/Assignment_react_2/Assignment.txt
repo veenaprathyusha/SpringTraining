@@ -1,0 +1,37 @@
+ ----------------------Assignment--------------
+
+  stock trading - h9.html
+  xena events - h10.html
+  video play -h11.html
+  canvas graph - h12.html
+  canvas graph - h14.html
+
+/ is used as ending html tag.
+example : </html>
+
+<html>
+</html>
+
+<head> and <body>
+ 
+< and >
+
+.html
+
+
+<h1></h1>
+<b>
+<p>
+<br>
+start with & and end with ;
+&nbsp
+6 . <a href="mail to:veena@gmail.com"></a>
+5 . <a href=""></a> --- hyperlink
+<link ref=""></link>
+
+
+  Age calculator - h22.html
+  digital clock - h23.html
+  hide and sek - h25.html
+  person class - h24.html
+
